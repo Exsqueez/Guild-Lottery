@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guildovní Loterie</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #1f2937; /* tmavě šedá */
+            color: #f3f4f6; /* světle šedá */
+        }
+        h1, h2, h3, .cinzel {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+        }
+        .wow-gold {
+            color: #ffd700;
+        }
+        .table-header {
+            background-color: #374151; /* tmavší šedá */
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .table-row-odd {
+            background-color: #4b5563; /* středně šedá */
+        }
+        .table-row-even {
+            background-color: #374151; /* tmavší šedá */
+        }
+        .winner-row {
+            background-color: #65a30d !important; /* zelená */
+            color: #ffffff;
+            font-weight: bold;
+        }
+        .winner-row .wow-gold {
+            color: #ffffff;
+            text-shadow: 0 0 5px #ffd700;
+        }
+        .jackpot-card {
+             background: linear-gradient(145deg, #4b5563, #374151);
+             border: 1px solid #ffd700;
+             box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+        .rules {
+            background-color: rgba(0,0,0,0.2);
+            border-left: 4px solid #ffd700;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+
+    <div class="max-w-7xl mx-auto">
+
+        <!-- HLAVIČKA -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-6xl wow-gold mb-2 text-shadow">Guildovní Loterie</h1>
+            <p class="text-lg text-gray-400 cinzel">Týden 39 (22.9. - 26.9. 2025)</p>
+        </header>
+
+        <!-- KARTY S VÝSLEDKY A JACKPOTEM -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 text-center">
+            
+            <div class="jackpot-card rounded-lg p-6">
+                <h2 class="text-xl cinzel mb-2">💰 Jackpot Týdne 💰</h2>
+                <p id="total-pot" class="text-4xl font-bold wow-gold">125,000g</p>
+                <p class="text-sm text-gray-400">(60% z celkového vkladu)</p>
+            </div>
+
+            <div class="jackpot-card rounded-lg p-6">
+                <h2 class="text-xl cinzel mb-2">🎲 Vítězné Číslo 🎲</h2>
+                <p id="winning-number" class="text-4xl font-bold">137</p>
+                <p class="text-sm text-gray-400">Losování proběhlo v pátek</p>
+            </div>
+
+            <div class="jackpot-card rounded-lg p-6">
+                <h2 class="text-xl cinzel mb-2">🏆 Vítěz(ové) 🏆</h2>
+                <p id="winner-name" class="text-4xl font-bold">Gragnak</p>
+                <p class="text-sm text-gray-400">Gratulujeme!</p>
+            </div>
+        </div>
+        
+        <!-- INFO BOX -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="rules p-4 rounded-lg">
+                <h3 class="text-lg font-bold cinzel mb-2">📜 Pravidla Loterie 📜</h3>
+                <ul class="list-disc list-inside text-gray-300 space-y-1">
+                    <li>**Vklad:** 5,000g na týden.</li>
+                    <li>**Sázka:** Vyber si číslo od 1 do 200.</li>
+                    <li>**Losování:** Každý pátek večer na Discordu.</li>
+                    <li>**Výhra:** 60% z celkové vybrané částky jde vítězi.</li>
+                    <li>**Guilda:** 40% jde do guildovní banky na opravy a raidy.</li>
+                    <li>**Jackpot:** Pokud nikdo nevyhraje, bank se přesouvá do dalšího týdne!</li>
+                </ul>
+            </div>
+            <div class="rules p-4 rounded-lg">
+                <h3 class="text-lg font-bold cinzel mb-2">📊 Shrnutí Týdne 📊</h3>
+                <div class="space-y-2 text-gray-300">
+                     <p>Celkem vybráno: <span id="total-collected" class="font-bold text-white">208,333g</span></p>
+                     <p>Do guild banky (40%): <span id="guild-cut" class="font-bold text-white">83,333g</span></p>
+                     <p>Počet sázejících: <span id="player-count" class="font-bold text-white">25</span></p>
+                     <p class="text-sm mt-2 text-gray-400">Příští týden začínáme s jackpotem <span id="next-jackpot" class="font-bold wow-gold">0g</span>.</p>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- TABULKA SE SÁZKAMI -->
+        <div class="bg-[#374151] rounded-lg shadow-lg overflow-hidden">
+            <h2 class="cinzel text-2xl text-center p-4">Seznam sázek</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="table-header">
+                        <tr>
+                            <th class="p-4">#</th>
+                            <th class="p-4">Hráč</th>
+                            <th class="p-4 text-right">Vklad (g)</th>
+                            <th class="p-4 text-center">Vsazené Číslo</th>
+                            <th class="p-4">Poznámka</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lottery-table">
+                        <!-- Vzorová data, která můžeš nahradit -->
+                        <tr class="table-row-odd">
+                            <td class="p-4">1</td>
+                            <td class="p-4 font-bold">Shadowfox</td>
+                            <td class="p-4 text-right wow-gold">5,000g</td>
+                            <td class="p-4 text-center text-xl">42</td>
+                            <td class="p-4 text-gray-400">Zaplaceno</td>
+                        </tr>
+                        <tr class="table-row-even">
+                            <td class="p-4">2</td>
+                            <td class="p-4 font-bold">Bloodmoon</td>
+                            <td class="p-4 text-right wow-gold">5,000g</td>
+                            <td class="p-4 text-center text-xl">199</td>
+                            <td class="p-4 text-gray-400">Zaplaceno</td>
+                        </tr>
+                        <tr class="table-row-odd winner-row" id="winner-example">
+                            <td class="p-4">3</td>
+                            <td class="p-4 font-bold">Gragnak</td>
+                            <td class="p-4 text-right">5,000g</td>
+                            <td class="p-4 text-center text-xl">137</td>
+                            <td class="p-4">VÍTĚZ!</td>
+                        </tr>
+                        <tr class="table-row-even">
+                            <td class="p-4">4</td>
+                            <td class="p-4 font-bold">Silverleaf</td>
+                            <td class="p-4 text-right wow-gold">5,000g</td>
+                            <td class="p-4 text-center text-xl">7</td>
+                            <td class="p-4 text-gray-400">Zaplaceno</td>
+                        </tr>
+                         <tr class="table-row-odd">
+                            <td class="p-4">...</td>
+                            <td class="p-4 font-bold">...</td>
+                            <td class="p-4 text-right wow-gold">...</td>
+                            <td class="p-4 text-center text-xl">...</td>
+                            <td class="p-4 text-gray-400">...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <footer class="text-center mt-8 text-gray-500 text-sm">
+            <p>Vault Master Inc. © 2025 - "Vaše goldy, naše starost."</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Tento skript je jen pro ukázku a automatický výpočet na této stránce.
+        // V Google Sheets budeš muset použít vzorce.
+        document.addEventListener('DOMContentLoaded', () => {
+            const players = 25; // Změň pro simulaci
+            const entryFee = 5000;
+            
+            const totalCollected = players * entryFee;
+            const prizePot = totalCollected * 0.60;
+            const guildCut = totalCollected * 0.40;
+
+            document.getElementById('total-pot').textContent = `${prizePot.toLocaleString('cs-CZ')}g`;
+            document.getElementById('total-collected').textContent = `${totalCollected.toLocaleString('cs-CZ')}g`;
+            document.getElementById('guild-cut').textContent = `${guildCut.toLocaleString('cs-CZ')}g`;
+            document.getElementById('player-count').textContent = players;
+        });
+    </script>
+</body>
+</html>
