@@ -30,6 +30,9 @@
         thead th {
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
+        .title-glow {
+            text-shadow: 0 0 8px rgba(245, 158, 11, 0.3);
+        }
     </style>
 </head>
 <body class="text-gray-200">
@@ -38,7 +41,7 @@
 
         <!-- HLAVIČKA -->
         <header class="text-center mb-10">
-            <h1 class="text-4xl md:text-6xl font-black text-gold uppercase tracking-wider">Guildovní Loterie Tenebrisia</h1>
+            <h1 class="text-4xl md:text-6xl font-black text-gold uppercase tracking-wider title-glow">Guildovní Loterie Tenebrisia</h1>
             <!-- Datum se nyní vkládá automaticky -->
             <p id="date-display" class="text-lg text-gray-400 mt-2"></p>
         </header>
@@ -125,27 +128,16 @@ const jackpotRollover = 0;
 // ===================================================================================
 
 document.addEventListener('DOMContentLoaded', function() {
-    // --- AUTOMATICKÁ AKTUALIZACE DATUMU ---
+    // --- AUTOMATICKÁ AKTUALIZACE TÝDNE ---
     const getWeekInfo = () => {
         const now = new Date();
         const startOfYear = new Date(now.getFullYear(), 0, 1);
         const pastDaysOfYear = (now - startOfYear) / 86400000;
         const weekNumber = Math.ceil((pastDaysOfYear + startOfYear.getDay() + 1) / 7);
-
-        // Opravená logika, která nemění původní datum
-        const monday = new Date(now);
-        const day = monday.getDay();
-        const diff = monday.getDate() - day + (day === 0 ? -6 : 1); // úprava pro neděli
-        monday.setDate(diff);
-
-        const friday = new Date(monday);
-        friday.setDate(monday.getDate() + 4);
-
-        const formatDate = (date) => `${date.getDate()}.${date.getMonth() + 1}.`;
-        return `Týden ${weekNumber} (${formatDate(monday)} - ${formatDate(friday)})`;
+        return `Týden ${weekNumber}`;
     };
     document.getElementById('date-display').textContent = getWeekInfo();
-    // --- KONEC SEKCE S DATUMEM ---
+    // --- KONEC SEKCE S TÝDNEM ---
 
 
     const tableBody = document.getElementById('lottery-table-body');
@@ -209,3 +201,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </body>
 </html>
+
