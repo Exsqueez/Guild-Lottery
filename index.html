@@ -38,9 +38,9 @@
 
         <!-- HLAVIČKA -->
         <header class="text-center mb-10">
-            <h1 class="text-4xl md:text-6xl font-black text-gold uppercase tracking-wider">Guildovní Loterie</h1>
-            <!-- ZDE MŮŽEŠ UPRAVIT DATUM -->
-            <p class="text-lg text-gray-400 mt-2">Týden 39 (22.9. - 26.9. 2025)</p>
+            <h1 class="text-4xl md:text-6xl font-black text-gold uppercase tracking-wider">Guildovní Loterie Tenebrisia</h1>
+            <!-- Datum se nyní vkládá automaticky -->
+            <p id="date-display" class="text-lg text-gray-400 mt-2"></p>
         </header>
 
         <!-- KARTY S INFORMACEMI -->
@@ -125,6 +125,26 @@ const jackpotRollover = 0;
 // ===================================================================================
 
 document.addEventListener('DOMContentLoaded', function() {
+    // --- AUTOMATICKÁ AKTUALIZACE DATUMU ---
+    const getWeekInfo = () => {
+        const now = new Date();
+        const startOfYear = new Date(now.getFullYear(), 0, 1);
+        const pastDaysOfYear = (now - startOfYear) / 86400000;
+        const weekNumber = Math.ceil((pastDaysOfYear + startOfYear.getDay() + 1) / 7);
+
+        const dayOfWeek = now.getDay();
+        const diffMonday = now.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
+        const monday = new Date(now.setDate(diffMonday));
+        const friday = new Date(monday);
+        friday.setDate(monday.getDate() + 4);
+
+        const formatDate = (date) => `${date.getDate()}.${date.getMonth() + 1}.`;
+        return `Týden ${weekNumber} (${formatDate(monday)} - ${formatDate(friday)})`;
+    };
+    document.getElementById('date-display').textContent = getWeekInfo();
+    // --- KONEC SEKCE S DATUMEM ---
+
+
     const tableBody = document.getElementById('lottery-table-body');
     const winners = [];
 
@@ -161,7 +181,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Aktualizace horních karet
-    const currentWeekPot = players.length * entryFee;
+    const payingPlayers = players.filter(p => !p.note.toLowerCase().includes('nezaplaceno'));
+    const currentWeekPot = payingPlayers.length * entryFee;
     const prizePool = currentWeekPot * 0.6;
     const totalJackpot = jackpotRollover + prizePool;
 
@@ -185,5 +206,3 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </body>
 </html>
-
-
