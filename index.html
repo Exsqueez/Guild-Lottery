@@ -91,15 +91,25 @@
 
 // KROK 1: Po losování sem zadej vítězné číslo.
 // Pokud losování ještě neproběhlo, nech hodnotu `null`.
-const winningNumber = 137;
+const winningNumber = null;
 
 // KROK 2: Zde je seznam všech hráčů.
 const players = [
-    { name: 'Cikynxd', bet: 42, note: 'Zaplaceno' },
-    { name: 'Luxes', bet: 199, note: 'Zaplaceno' },
-    { name: 'Exsqueez', bet: 137, note: 'Zaplaceno' },
-    { name: 'Arny', bet: 7, note: 'Nezaplaceno' },
-    { name: 'Karel', bet: 137, note: 'Zaplaceno' },
+    { name: 'Exsqueez', bet: 0, note: 'Nezaplaceno' },
+    { name: 'Luxes', bet: 0, note: 'Nezaplaceno' },
+    { name: 'Exsqueez', bet: 0, note: 'Nezaplaceno' },
+    { name: 'Arny', bet: 0, note: 'Nezaplaceno' },
+    { name: 'Suzu', bet: 0, note: 'Nezaplaceno' },
+    { name: 'Vecty', bet: 0, note: 'Nezaplaceno' },
+    { name: 'Cikynxd', bet: 0, note: 'Nezaplaceno' },
+    { name: 'Kubino', bet: 0, note: 'Nezaplaceno' },
+    { name: 'Karel', bet: 0, note: 'Nezaplaceno' },
+    { name: 'Prochy', bet: 0, note: 'Nezaplaceno' },
+    { name: 'Tony101', bet: 0, note: 'Nezaplaceno' },
+    { name: 'Maxýý', bet: 0, note: 'Nezaplaceno' },
+    { name: 'Lord Inquisittor', bet: 0, note: 'Nezaplaceno' },
+  
+    
     // { name: 'JménoHráče', bet: ČÍSLO, note: 'Poznámka' },
 ];
 
@@ -108,7 +118,7 @@ const entryFee = 5000;
 
 // KROK 4: POKUD NIKDO MINULÝ TÝDEN NEVYHRÁL, zadej sem částku jackpotu, která se přenáší.
 // POKUD NĚKDO VYHRÁL, NECH TO NA 0.
-const jackpotRollover = 75000;
+const jackpotRollover = 0;
 
 // ===================================================================================
 // TÉTO ČÁSTI POD TÍMTO ŘÁDKEM SE UŽ NEDOTÝKEJ (AUTOMATICKÁ MAGIE)
