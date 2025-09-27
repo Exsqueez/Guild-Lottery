@@ -93,35 +93,28 @@
 // ===================================================================================
 
 // KROK 1: Po losování sem zadej vítězné číslo.
-// Pokud losování ještě neproběhlo, nech hodnotu `null`.
 const winningNumber = null;
 
-// KROK 2: Zde je seznam všech hráčů.
-const players = [
-    { name: 'Exsqueez', bet: 0, note: 'Nezaplaceno' },
-    { name: 'Luxes', bet: 0, note: 'Nezaplaceno' },
-    { name: 'Exsqueez', bet: 0, note: 'Nezaplaceno' },
-    { name: 'Arny', bet: 0, note: 'Nezaplaceno' },
-    { name: 'Suzu', bet: 0, note: 'Nezaplaceno' },
-    { name: 'Vecty', bet: 0, note: 'Nezaplaceno' },
-    { name: 'Cikynxd', bet: 0, note: 'Nezaplaceno' },
-    { name: 'Kubino', bet: 0, note: 'Nezaplaceno' },
-    { name: 'Karel', bet: 0, note: 'Nezaplaceno' },
-    { name: 'Prochy', bet: 0, note: 'Nezaplaceno' },
-    { name: 'Tony101', bet: 0, note: 'Nezaplaceno' },
-    { name: 'Maxýý', bet: 0, note: 'Nezaplaceno' },
-    { name: 'Lord Inquisittor', bet: 0, note: 'Nezaplaceno' },
-  
-    
-    // { name: 'JménoHráče', bet: ČÍSLO, note: 'Poznámka' },
-];
-
-// KROK 3: Sem napiš výchozí vklad pro jednoho hráče.
+// KROK 2: Sem napiš výchozí vklad pro jednoho hráče.
 const entryFee = 5000;
 
-// KROK 4: POKUD NIKDO MINULÝ TÝDEN NEVYHRÁL, zadej sem částku jackpotu, která se přenáší.
-// POKUD NĚKDO VYHRÁL, NECH TO NA 0.
+// KROK 3: POKUD NIKDO MINULÝ TÝDEN NEVYHRÁL, zadej sem částku jackpotu, která se přenáší.
 const jackpotRollover = 0;
+
+// KROK 4: Zde je seznam členů guildy. Měníš ho jen když někdo přijde/odejde.
+const guildRoster = [
+    'Exsqueez', 'Luxes', 'Arny', 'Suzu', 'Vecty', 'Cikynxd',
+    'Kubino', 'Karel', 'Prochy', 'Tony101', 'Maxýý', 'Lord Inquisittor'
+];
+
+// KROK 5: Zde je seznam SÁZEK pro aktuální týden.
+// PRO RESET TÝDNE: Jednoduše smaž všechny řádky a necháš jen prázdné `const bets = [];`
+// Když někdo vsadí, přidáš ho sem.
+const bets = [
+    // { name: 'JménoHráče', bet: ČÍSLO },
+    // Příklad: { name: 'Arny', bet: 137 },
+];
+
 
 // ===================================================================================
 // TÉTO ČÁSTI POD TÍMTO ŘÁDKEM SE UŽ NEDOTÝKEJ (AUTOMATICKÁ MAGIE)
@@ -143,41 +136,46 @@ document.addEventListener('DOMContentLoaded', function() {
     const tableBody = document.getElementById('lottery-table-body');
     const winners = [];
 
-    players.forEach((player, index) => {
+    // Zobrazení všech členů z rosteru
+    guildRoster.forEach((playerName, index) => {
+        const playerBet = bets.find(b => b.name === playerName);
+        const hasPaid = !!playerBet;
+        const betNumber = hasPaid ? playerBet.bet : 0;
+        
         const row = document.createElement('tr');
         const isEven = index % 2 === 1;
-        const isWinner = winningNumber !== null && player.bet === winningNumber;
+        const isWinner = winningNumber !== null && hasPaid && betNumber === winningNumber;
 
         row.className = isEven ? 'bg-gray-800 hover:bg-gray-700' : 'hover:bg-gray-700';
 
         if (isWinner) {
             row.classList.add('winner-row');
             row.classList.add('hover:bg-green-800');
-            winners.push(player.name);
+            winners.push(playerName);
         }
-
-        let finalNote = player.note;
-        let noteColorClass = 'text-green-400';
-        if (isWinner) {
+        
+        const noteText = hasPaid ? 'Zaplaceno' : 'Nezaplaceno';
+        let noteColorClass = hasPaid ? 'text-green-400' : 'text-yellow-400';
+        let finalNote = noteText;
+        
+        if(isWinner) {
             finalNote = 'VÍTĚZ!';
             noteColorClass = '';
-        } else if (player.note.toLowerCase().includes('nezaplaceno')) {
-            noteColorClass = 'text-yellow-400';
         }
 
         row.innerHTML = `
             <td class="p-3 text-sm text-gray-400 text-center">${index + 1}</td>
-            <td class="p-3 text-sm font-bold">${player.name}</td>
+            <td class="p-3 text-sm font-bold">${playerName}</td>
             <td class="p-3 text-sm text-center">${entryFee.toLocaleString('cs-CZ')}</td>
-            <td class="p-3 text-sm text-center font-mono">${player.bet}</td>
+            <td class="p-3 text-sm text-center font-mono">${betNumber}</td>
             <td class="p-3 text-sm ${noteColorClass}">${finalNote}</td>
         `;
         tableBody.appendChild(row);
     });
 
     // Aktualizace horních karet
-    const payingPlayers = players.filter(p => !p.note.toLowerCase().includes('nezaplaceno'));
-    const currentWeekPot = payingPlayers.length * entryFee;
+    const payingPlayersCount = bets.length;
+    const currentWeekPot = payingPlayersCount * entryFee;
     const prizePool = currentWeekPot * 0.6;
     const totalJackpot = jackpotRollover + prizePool;
 
