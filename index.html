@@ -7,71 +7,32 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Přidán nový font "Cinzel Decorative" pro ještě epičtější nadpis -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Skript pro konfety -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            /* Pozadí inspirované tvým obrázkem */
-            background-color: #1a0229;
-            background-image: radial-gradient(circle at top center, rgba(126, 34, 206, 0.3), transparent 50%),
-                              radial-gradient(circle at bottom left, rgba(147, 51, 234, 0.2), transparent 60%),
-                              radial-gradient(circle at bottom right, rgba(91, 33, 182, 0.2), transparent 70%);
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-        }
-        .text-pink-glow {
-            color: #f0abfc; /* Světle fialová/růžová */
-        }
-        .card {
-            background-color: rgba(31, 41, 55, 0.7); /* Lehce průhledné karty */
-            border: 1px solid #8b5cf6; /* Fialový okraj */
-            backdrop-filter: blur(5px); /* Efekt rozmazaného skla */
-        }
-        .winner-row {
-            background-color: #166534 !important; /* Tmavě zelená pro vítěze */
-            color: #f0fdf4;
-        }
-        .winner-row td {
-            font-weight: bold;
-        }
-        thead th {
-            background-color: rgba(17, 24, 39, 0.7);
-            border-bottom: 2px solid #8b5cf6;
-        }
-        .title-font {
-            font-family: 'Cinzel Decorative', serif; /* Aplikace nového fontu */
-            color: #f0abfc;
-            text-shadow: 0 0 5px #e9d5ff, 0 0 10px #c084fc, 0 0 15px #a855f7;
-        }
-        /* Styl pro logo */
-        .logo-emblem {
-            border-radius: 9999px; /* Udělá z toho kruh */
-            border: 3px solid #a855f7; /* Fialový rámeček */
-            padding: 0.5rem; /* Odsazení loga od rámečku */
-            background-color: #111827; /* Tmavý podklad pod logo */
-            box-shadow: 0 0 20px rgba(168, 85, 247, 0.6); /* Fialová záře */
-        }
+        body { font-family: 'Roboto', sans-serif; background-color: #1a0229;
+            background-image: radial-gradient(circle at top center, rgba(126,34,206,0.3), transparent 50%),
+                              radial-gradient(circle at bottom left, rgba(147,51,234,0.2), transparent 60%),
+                              radial-gradient(circle at bottom right, rgba(91,33,182,0.2), transparent 70%);
+            background-size: cover; background-attachment: fixed; background-position: center; }
+        .text-pink-glow { color: #f0abfc; }
+        .card { background-color: rgba(31,41,55,0.7); border: 1px solid #8b5cf6; backdrop-filter: blur(5px); }
+        .winner-row { background-color: #166534 !important; color: #f0fdf4; font-weight: bold; }
+        thead th { background-color: rgba(17,24,39,0.7); border-bottom: 2px solid #8b5cf6; }
+        .title-font { font-family: 'Cinzel Decorative', serif; color: #f0abfc; text-shadow: 0 0 5px #e9d5ff, 0 0 10px #c084fc, 0 0 15px #a855f7; }
+        .logo-emblem { border-radius: 9999px; border: 3px solid #a855f7; padding: 0.5rem; background-color: #111827; box-shadow: 0 0 20px rgba(168,85,247,0.6); }
     </style>
 </head>
 <body class="text-gray-200">
 
     <div class="container mx-auto p-4 md:p-8 max-w-5xl">
-
-        <!-- HLAVIČKA -->
         <header class="text-center mb-10">
-            <!-- 
-                TENTO ODKAZ TEĎ UKAZUJE NA SOUBOR "logo.png", KTERÝ MUSÍ BÝT NAHRANÝ
-                PŘÍMO V TVÉM GITHUB PROJEKTU. UŽ ŽÁDNÝ IMGUR!
-            -->
             <img src="logo.png" alt="Logo Tenebrisia" class="mx-auto mb-6 h-28 w-28 logo-emblem">
-            
             <h1 class="text-4xl md:text-6xl font-bold uppercase tracking-wider title-font">Guildovní Loterie Tenebrisia</h1>
             <p id="date-display" class="text-lg text-gray-400 mt-2"></p>
         </header>
 
-        <!-- KARTY S INFORMACEMI -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 text-center">
             <div class="card rounded-lg p-6">
                 <h2 class="text-xl font-bold text-gray-400">💰 Jackpot Týdne 💰</h2>
@@ -82,7 +43,8 @@
             <div class="card rounded-lg p-6">
                 <h2 class="text-xl font-bold text-gray-400">🎲 Vítězné Číslo 🎲</h2>
                 <p id="winning-number-display" class="text-4xl font-bold text-white mt-2">?</p>
-                <p class="text-sm text-gray-500 mt-1">(Losování v pátek)</p>
+                <!-- Nový prvek pro odpočet -->
+                <p id="countdown-display" class="text-sm text-gray-400 mt-1">Páteční losování</p>
             </div>
             <div class="card rounded-lg p-6">
                 <h2 class="text-xl font-bold text-gray-400">🏆 Vítěz(ové) 🏆</h2>
@@ -91,11 +53,10 @@
             </div>
         </div>
 
-        <!-- TABULKA SE SÁZKAMI -->
         <div class="card rounded-lg p-4 sm:p-6 overflow-x-auto">
             <h2 class="text-2xl font-bold text-center mb-6">Seznam sázek</h2>
             <table class="w-full text-left">
-                <thead class="">
+                <thead>
                     <tr>
                         <th class="p-3 text-sm font-semibold tracking-wide text-center">#</th>
                         <th class="p-3 text-sm font-semibold tracking-wide">Hráč</th>
@@ -104,12 +65,9 @@
                         <th class="p-3 text-sm font-semibold tracking-wide">Poznámka</th>
                     </tr>
                 </thead>
-                <tbody id="lottery-table-body" class="divide-y divide-gray-700">
-                    <!-- Tabulka se vygeneruje automaticky pomocí skriptu níže -->
-                </tbody>
+                <tbody id="lottery-table-body" class="divide-y divide-gray-700"></tbody>
             </table>
         </div>
-        
     </div>
 
 <script>
@@ -118,110 +76,101 @@
 // ===================================================================================
 
 // KROK 1: Po losování sem zadej vítězné číslo.
-const winningNumber = 21;
+const winningNumber = null;
 
 // KROK 2: Sem napiš výchozí vklad pro jednoho hráče.
 const entryFee = 5000;
 
-// KROK 3: POKUD NIKDO MINULÝ TÝDEN NEVYHRÁL, zadej sem částku jackpotu, která se přenáší.
-const jackpotRollover = 0;
+// KROK 3: Pokud nikdo minulý týden nevyhrál, zadej sem částku jackpotu, která se přenáší.
+let jackpotRollover = 24000;
 
-// KROK 4: Zde je seznam členů guildy. Měníš ho jen když někdo přijde/odejde.
-const guildRoster = [
-    'Exsqueez', 'Luxes', 'Arny', 'Suzu', 'Vecty', 'Cikynxd',
-    'Kubiinho', 'MoonexeKarel', 'Prochy', 'Tony101', 'Maxýý', 'Lord Inquisittor', 'Artimik', 'Adamekdave', 'Ja_Jsem_Tucnakk', 'Sajmon'
+// KROK 4: Zde je seznam všech hráčů a jejich sázek.
+const players = [
+    { name: 'Exsqueez', bet: 137 }, { name: 'Luxes', bet: 22 }, { name: 'Arny', bet: null },
+    { name: 'Suzu', bet: null }, { name: 'Vecty', bet: null }, { name: 'Cikynxd', bet: null },
+    { name: 'Kubiinho', bet: null }, { name: 'MoonexeKarel', bet: null }, { name: 'Prochy', bet: null },
+    { name: 'Tony101', bet: null }, { name: 'Maxýý', bet: null }, { name: 'Lord Inquisittor', bet: null },
+    { name: 'Artimik', bet: null }, { name: 'Adamekdave', bet: null }, { name: 'Ja_Jsem_Tucnakk', bet: null },
+    { name: 'Sajmon', bet: null }
 ];
-
-// KROK 5: Zde je seznam SÁZEK pro aktuální týden.
-// PRO RESET TÝDNE: Jednoduše smaž všechny řádky a necháš jen prázdné `const bets = [];`
-// Když někdo vsadí, přidáš ho sem.
-const bets = [ { name: 'Exsqueez', bet: 137 }, { name: 'Arny', bet: 66 }, { name: 'Suzu', bet: 13 }, { name: 'Cikynxd', bet: 23 }, { name: 'Artimik', bet: 5 }, { name: 'Sajmon', bet: 77 }, { name: 'Vecty', bet: 91 }, { name: 'Luxes', bet: 22 }
-    // { name: 'JménoHráče', bet: ČÍSLO },
-    // Příklad: { name: 'Arny', bet: 137 },
-];
-
 
 // ===================================================================================
 // TÉTO ČÁSTI POD TÍMTO ŘÁDKEM SE UŽ NEDOTÝKEJ (AUTOMATICKÁ MAGIE)
 // ===================================================================================
 
 document.addEventListener('DOMContentLoaded', function() {
-    // --- AUTOMATICKÁ AKTUALIZACE TÝDNE ---
-    const getWeekInfo = () => {
+    
+    function getNextFriday() {
         const now = new Date();
-        const startOfYear = new Date(now.getFullYear(), 0, 1);
-        const pastDaysOfYear = (now - startOfYear) / 86400000;
-        const weekNumber = Math.ceil((pastDaysOfYear + startOfYear.getDay() + 1) / 7);
-        return `Týden ${weekNumber}`;
-    };
-    document.getElementById('date-display').textContent = getWeekInfo();
-    // --- KONEC SEKCE S TÝDNEM ---
-
-
-    const tableBody = document.getElementById('lottery-table-body');
-    const winners = [];
-
-    // Zobrazení všech členů z rosteru
-    guildRoster.forEach((playerName, index) => {
-        const playerBet = bets.find(b => b.name === playerName);
-        const hasPaid = !!playerBet;
-        const betNumber = hasPaid ? playerBet.bet : 0;
-        
-        const row = document.createElement('tr');
-        const isEven = index % 2 === 1;
-        const isWinner = winningNumber !== null && hasPaid && betNumber === winningNumber;
-
-        row.className = isEven ? 'bg-gray-900/50 hover:bg-gray-800/70' : 'hover:bg-gray-800/70';
-
-        if (isWinner) {
-            row.classList.add('winner-row');
-            row.classList.add('hover:bg-green-800');
-            winners.push(playerName);
-        }
-        
-        const noteText = hasPaid ? 'Zaplaceno' : 'Nezaplaceno';
-        let noteColorClass = hasPaid ? 'text-green-400' : 'text-yellow-400';
-        let finalNote = noteText;
-        
-        if(isWinner) {
-            finalNote = 'VÍTĚZ!';
-            noteColorClass = '';
-        }
-
-        row.innerHTML = `
-            <td class="p-3 text-sm text-gray-400 text-center">${index + 1}</td>
-            <td class="p-3 text-sm font-bold">${playerName}</td>
-            <td class="p-3 text-sm text-center">${entryFee.toLocaleString('cs-CZ')}</td>
-            <td class="p-3 text-sm text-center font-mono">${betNumber}</td>
-            <td class="p-3 text-sm ${noteColorClass}">${finalNote}</td>
-        `;
-        tableBody.appendChild(row);
-    });
-
-    // Aktualizace horních karet
-    const payingPlayersCount = bets.length;
-    const currentWeekPot = payingPlayersCount * entryFee;
-    const prizePool = currentWeekPot * 0.6;
-    const totalJackpot = jackpotRollover + prizePool;
-
-    document.getElementById('jackpot-amount').textContent = `${totalJackpot.toLocaleString('cs-CZ')}g`;
-    document.getElementById('winning-number-display').textContent = winningNumber !== null ? winningNumber : '?';
-    
-    let winnerText = 'Zatím nikdo';
-    if (winners.length > 0) {
-        winnerText = winners.join(', ');
-    } else if (winningNumber !== null) {
-        winnerText = 'Nikdo nevyhrál!';
+        const today = now.getDay();
+        const daysUntilFriday = (5 - today + 7) % 7;
+        const nextFriday = new Date(now);
+        nextFriday.setDate(now.getDate() + daysUntilFriday);
+        nextFriday.setHours(18, 0, 0, 0); // Nastavíme čas losování na 18:00
+        return nextFriday;
     }
-    document.getElementById('winner-name').textContent = winnerText;
-    
-    const rolloverInfo = document.getElementById('rollover-info');
-    if (jackpotRollover > 0) {
-        rolloverInfo.textContent = `(Včetně ${jackpotRollover.toLocaleString('cs-CZ')}g z minulého týdne)`;
+
+    function updateDisplays() {
+        const nextFriday = getNextFriday();
+        document.getElementById('date-display').textContent = `Losování: Pátek ${nextFriday.toLocaleDateString('cs-CZ')}`;
+
+        // --- NOVÝ ŽIVÝ ODPOČET ---
+        const countdownElement = document.getElementById('countdown-display');
+        setInterval(() => {
+            const now = new Date();
+            const distance = nextFriday - now;
+            if (distance < 0) {
+                countdownElement.textContent = "Losování proběhlo!";
+                return;
+            }
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            countdownElement.textContent = `Zbývá: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }, 1000);
+        // --- KONEC ODPOČTU ---
+
+        const tbody = document.getElementById('lottery-table-body');
+        tbody.innerHTML = '';
+        const winners = [];
+
+        players.forEach((p, index) => {
+            const hasPaid = p.bet !== null;
+            const isWinner = winningNumber !== null && hasPaid && p.bet === winningNumber;
+            const row = document.createElement('tr');
+            row.className = index % 2 ? 'bg-gray-900/50 hover:bg-gray-800/70' : 'hover:bg-gray-800/70';
+            if (isWinner) {
+                row.classList.add('winner-row');
+                winners.push(p.name);
+            }
+            const noteText = isWinner ? 'VÍTĚZ!' : (hasPaid ? 'Zaplaceno' : 'Nezaplaceno');
+            const noteClass = isWinner ? '' : (hasPaid ? 'text-green-400' : 'text-yellow-400');
+            row.innerHTML = `<td class="p-3 text-sm text-gray-400 text-center">${index + 1}</td><td class="p-3 text-sm font-bold">${p.name}</td><td class="p-3 text-sm text-center">${entryFee.toLocaleString('cs-CZ')}</td><td class="p-3 text-sm text-center font-mono">${hasPaid ? p.bet : '-'}</td><td class="p-3 text-sm ${noteClass}">${noteText}</td>`;
+            tbody.appendChild(row);
+        });
+
+        const payingCount = players.filter(p => p.bet !== null).length;
+        const currentPot = payingCount * entryFee;
+        const prizePool = currentPot * 0.6;
+        const totalJackpot = jackpotRollover + prizePool;
+
+        document.getElementById('jackpot-amount').textContent = `${totalJackpot.toLocaleString('cs-CZ')}g`;
+        document.getElementById('winning-number-display').textContent = winningNumber !== null ? winningNumber : '?';
+        const winnerText = winners.length ? winners.join(', ') : (winningNumber !== null ? 'Nikdo nevyhrál!' : 'Zatím nikdo');
+        document.getElementById('winner-name').textContent = winnerText;
+        document.getElementById('rollover-info').textContent = jackpotRollover > 0 ? `(Včetně ${jackpotRollover.toLocaleString('cs-CZ')}g z minulého týdne)` : '';
+
+        // --- NOVÁ KONFETOVÁ EXPLOZE ---
+        if (winners.length > 0) {
+            confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } });
+        }
+        // --- KONEC KONFET ---
     }
+
+    updateDisplays();
 });
 </script>
-
 </body>
 </html>
 
