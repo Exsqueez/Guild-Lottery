@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tenebrisia Loterie | Dashboard</title>
+    <title>Mythion Loterie | Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Fonty -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,8 +19,8 @@
             font-family: 'Inter', sans-serif;
             background-color: #050505;
             background-image: 
-                radial-gradient(circle at 50% 0%, rgba(88, 28, 135, 0.4), transparent 70%),
-                linear-gradient(180deg, #0f0214 0%, #000000 100%);
+                radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.2), transparent 70%),
+                linear-gradient(180deg, #111111 0%, #000000 100%);
             color: #e5e7eb;
             min-height: 100vh;
             overflow-x: hidden;
@@ -28,24 +28,24 @@
 
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: #0f0214; }
-        ::-webkit-scrollbar-thumb { background: #4c1d95; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #6d28d9; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #facc15; }
 
         .font-cinzel { font-family: 'Cinzel', serif; }
         
         .card {
-            background: rgba(20, 10, 30, 0.6);
-            border: 1px solid rgba(139, 92, 246, 0.2);
+            background: rgba(15, 15, 15, 0.8);
+            border: 1px solid rgba(255, 215, 0, 0.2);
             backdrop-filter: blur(12px);
             transition: all 0.3s ease;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
         }
         
         .card:hover {
             transform: translateY(-2px);
-            border-color: rgba(139, 92, 246, 0.5);
-            box-shadow: 0 10px 40px rgba(139, 92, 246, 0.15);
+            border-color: rgba(255, 215, 0, 0.5);
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.15);
         }
 
         .glow-effect {
@@ -53,14 +53,14 @@
         }
 
         @keyframes pulse-glow {
-            0%, 100% { text-shadow: 0 0 10px rgba(240, 171, 252, 0.5); }
-            50% { text-shadow: 0 0 25px rgba(240, 171, 252, 0.9); }
+            0%, 100% { text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+            50% { text-shadow: 0 0 25px rgba(255, 215, 0, 0.9); }
         }
 
         /* Fog animation */
         .fog-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; overflow: hidden; }
-        .fog-img { position: absolute; height: 100vh; width: 300vw; opacity: 0.3; background: url('https://raw.githubusercontent.com/danielstuart14/CSS_FOG_ANIMATION/master/fog1.png') repeat-x; animation: fog 60s linear infinite; }
-        .fog-img-2 { animation-direction: reverse; animation-duration: 40s; top: 30%; opacity: 0.2; }
+        .fog-img { position: absolute; height: 100vh; width: 300vw; opacity: 0.15; background: url('https://raw.githubusercontent.com/danielstuart14/CSS_FOG_ANIMATION/master/fog1.png') repeat-x; animation: fog 60s linear infinite; filter: sepia(1) hue-rotate(10deg) saturate(3); }
+        .fog-img-2 { animation-direction: reverse; animation-duration: 40s; top: 30%; opacity: 0.1; filter: sepia(1) hue-rotate(10deg) saturate(3); }
         @keyframes fog { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-200vw, 0, 0); } }
     </style>
 </head>
@@ -76,25 +76,25 @@
         <!-- Header -->
         <header class="flex flex-col items-center mb-12 text-center">
             <div class="relative group">
-                <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
+                <div class="absolute -inset-1 bg-gradient-to-r from-yellow-600 to-amber-400 rounded-full blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
                 <!-- Placeholder for Guild Logo if file is missing -->
-                <div class="relative w-32 h-32 rounded-full bg-gray-900 border-2 border-purple-500 flex items-center justify-center overflow-hidden shadow-2xl">
+                <div class="relative w-32 h-32 rounded-full bg-black border-2 border-yellow-500 flex items-center justify-center overflow-hidden shadow-2xl">
                      <img src="logo.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="Logo" class="w-full h-full object-cover">
-                     <span style="display:none" class="text-4xl">🐲</span>
+                     <span style="display:none" class="text-4xl text-yellow-500">🐉</span>
                 </div>
             </div>
             
-            <h1 class="mt-6 text-5xl md:text-7xl font-bold uppercase tracking-widest font-cinzel bg-clip-text text-transparent bg-gradient-to-b from-purple-300 via-purple-100 to-purple-400 drop-shadow-lg">
-                Tenebrisia
+            <h1 class="mt-6 text-5xl md:text-7xl font-bold uppercase tracking-widest font-cinzel bg-clip-text text-transparent bg-gradient-to-b from-yellow-200 via-white to-yellow-600 drop-shadow-lg">
+                Mythion
             </h1>
-            <div class="flex items-center gap-2 mt-2 text-purple-300/70 text-sm uppercase tracking-widest font-semibold">
-                <span class="w-8 h-[1px] bg-purple-500/50"></span>
+            <div class="flex items-center gap-2 mt-2 text-yellow-300/70 text-sm uppercase tracking-widest font-semibold">
+                <span class="w-8 h-[1px] bg-yellow-500/50"></span>
                 Guildovní Loterie
-                <span class="w-8 h-[1px] bg-purple-500/50"></span>
+                <span class="w-8 h-[1px] bg-yellow-500/50"></span>
             </div>
             
-            <div class="mt-4 flex items-center gap-4 bg-gray-900/50 px-4 py-2 rounded-full border border-purple-500/20 backdrop-blur-sm">
-                <i data-lucide="calendar" class="w-4 h-4 text-purple-400"></i>
+            <div class="mt-4 flex items-center gap-4 bg-black/50 px-4 py-2 rounded-full border border-yellow-500/30 backdrop-blur-sm">
+                <i data-lucide="calendar" class="w-4 h-4 text-yellow-400"></i>
                 <span id="date-display" class="text-gray-300 font-mono text-sm">Načítání data...</span>
             </div>
         </header>
@@ -106,43 +106,43 @@
                 <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                     <i data-lucide="coins" class="w-16 h-16 text-yellow-400"></i>
                 </div>
-                <h2 class="text-sm font-bold text-purple-400 uppercase tracking-wider mb-2">Celkový Jackpot</h2>
+                <h2 class="text-sm font-bold text-yellow-500 uppercase tracking-wider mb-2">Celkový Jackpot</h2>
                 <div class="flex items-baseline gap-1">
                     <span id="jackpot-amount" class="text-4xl font-bold text-white glow-effect">0</span>
                     <span class="text-yellow-500 font-cinzel">g</span>
                 </div>
                 <p id="rollover-info" class="text-xs text-gray-500 mt-2 h-4"></p>
                 <div class="w-full bg-gray-800 h-1 mt-4 rounded-full overflow-hidden">
-                    <div class="bg-gradient-to-r from-purple-600 to-pink-500 h-full w-[60%]"></div>
+                    <div class="bg-gradient-to-r from-yellow-600 to-amber-400 h-full w-[60%]"></div>
                 </div>
                 <p class="text-[10px] text-right text-gray-500 mt-1">60% prizepool</p>
             </div>
 
             <!-- Guild Bank Cut Card (UPDATED) -->
-            <div class="card rounded-xl p-6 relative overflow-hidden group border-blue-500/20">
+            <div class="card rounded-xl p-6 relative overflow-hidden group border-amber-500/20">
                 <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                    <i data-lucide="landmark" class="w-16 h-16 text-blue-400"></i>
+                    <i data-lucide="landmark" class="w-16 h-16 text-amber-500"></i>
                 </div>
-                <h2 class="text-sm font-bold text-blue-400 uppercase tracking-wider mb-2">Celkem v Guild Bance</h2>
+                <h2 class="text-sm font-bold text-amber-500 uppercase tracking-wider mb-2">Celkem v Guild Bance</h2>
                 <div class="flex items-baseline gap-1">
                     <span id="bank-total-amount" class="text-4xl font-bold text-white">0</span>
                     <span class="text-yellow-500 font-cinzel">g</span>
                 </div>
                 <p id="bank-weekly-gain" class="text-xs text-green-400 mt-2">+0g tento týden</p>
                 <div class="w-full bg-gray-800 h-1 mt-4 rounded-full overflow-hidden">
-                    <div class="bg-blue-600 h-full w-full opacity-50"></div>
+                    <div class="bg-amber-600 h-full w-full opacity-50"></div>
                 </div>
                 <p class="text-[10px] text-right text-gray-500 mt-1">Historický výdělek (40% cut)</p>
             </div>
 
             <!-- Winning Number -->
-            <div class="card rounded-xl p-6 relative overflow-hidden text-center border-purple-500/40">
+            <div class="card rounded-xl p-6 relative overflow-hidden text-center border-yellow-500/40">
                 <h2 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">Vítězné Číslo</h2>
                 <div class="relative inline-block">
-                    <div class="absolute -inset-2 bg-purple-600 blur-lg opacity-20 rounded-full"></div>
+                    <div class="absolute -inset-2 bg-yellow-600 blur-lg opacity-20 rounded-full"></div>
                     <span id="winning-number-display" class="relative text-6xl font-black font-mono text-white z-10">?</span>
                 </div>
-                <div id="countdown-display" class="mt-4 text-xs font-mono text-purple-300 bg-purple-900/30 py-1 px-2 rounded inline-block border border-purple-500/20">
+                <div id="countdown-display" class="mt-4 text-xs font-mono text-yellow-300 bg-yellow-900/30 py-1 px-2 rounded inline-block border border-yellow-500/20">
                     ---
                 </div>
             </div>
@@ -154,7 +154,7 @@
                 <div id="winner-container" class="flex-1 flex items-center justify-center">
                     <span id="winner-name" class="text-2xl font-bold text-gray-500">Čekání na los...</span>
                 </div>
-                <button onclick="copyToDiscord()" class="mt-4 flex items-center justify-center gap-2 text-xs bg-indigo-600 hover:bg-indigo-500 text-white py-2 px-4 rounded transition-colors shadow-lg shadow-indigo-500/20">
+                <button onclick="copyToDiscord()" class="mt-4 flex items-center justify-center gap-2 text-xs bg-yellow-600 hover:bg-yellow-500 text-black font-bold py-2 px-4 rounded transition-colors shadow-lg shadow-yellow-500/20">
                     <i data-lucide="copy" class="w-3 h-3"></i> Zkopírovat pro Discord
                 </button>
             </div>
@@ -163,14 +163,14 @@
         <!-- Table Section -->
         <div class="card rounded-xl overflow-hidden">
             <div class="p-4 border-b border-gray-800 flex flex-col sm:flex-row justify-between items-center gap-4">
-                <h2 class="text-xl font-cinzel font-bold text-purple-200 flex items-center gap-2">
-                    <i data-lucide="scroll" class="w-5 h-5 text-purple-500"></i> Svitky Osudu (Sázky)
+                <h2 class="text-xl font-cinzel font-bold text-yellow-200 flex items-center gap-2">
+                    <i data-lucide="scroll" class="w-5 h-5 text-yellow-500"></i> Svitky Osudu (Sázky)
                 </h2>
                 <div class="flex gap-2 text-sm">
-                    <div class="bg-gray-900/80 px-3 py-1 rounded border border-gray-700">
+                    <div class="bg-black/80 px-3 py-1 rounded border border-yellow-700/50">
                         Celkem vsazeno: <span id="total-bets-sum" class="text-white font-bold">0</span><span class="text-yellow-500">g</span>
                     </div>
-                    <div class="bg-gray-900/80 px-3 py-1 rounded border border-gray-700">
+                    <div class="bg-black/80 px-3 py-1 rounded border border-yellow-700/50">
                         Hráčů: <span id="total-players-count" class="text-white font-bold">0</span>
                     </div>
                 </div>
@@ -179,7 +179,7 @@
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="bg-gray-900/90 text-xs uppercase tracking-wider text-gray-400">
+                        <tr class="bg-black/90 text-xs uppercase tracking-wider text-gray-400">
                             <th class="p-4 text-center w-16">#</th>
                             <th class="p-4 cursor-pointer hover:text-white transition-colors group" onclick="sortTable('name')">
                                 Hráč <i data-lucide="arrow-up-down" class="inline w-3 h-3 ml-1 opacity-50 group-hover:opacity-100"></i>
@@ -200,16 +200,16 @@
         </div>
 
         <footer class="text-center mt-12 mb-6 text-gray-600 text-xs">
-            <p>Powered by Goblin Engineering Inc. &trade; | Tenebrisia Guild System v2.1</p>
+            <p>Powered by Goblin Engineering Inc. &trade; | Mythion Guild System v2.2</p>
         </footer>
     </div>
 
     <!-- TOAST NOTIFICATION -->
-    <div id="toast" class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 transition-all duration-300 bg-gray-800 border border-green-500 text-white px-4 py-3 rounded-lg shadow-2xl flex items-center gap-3 z-50">
+    <div id="toast" class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 transition-all duration-300 bg-gray-900 border border-green-500 text-white px-4 py-3 rounded-lg shadow-2xl flex items-center gap-3 z-50">
         <div class="bg-green-500/20 p-2 rounded-full"><i data-lucide="check" class="w-4 h-4 text-green-400"></i></div>
         <div>
-            <h4 class="font-bold text-sm">Zkopírováno!</h4>
-            <p class="text-xs text-gray-400">Výsledky jsou ve schránce.</p>
+            <h4 class="font-bold text-sm text-yellow-400">Zkopírováno!</h4>
+            <p class="text-xs text-gray-400">Výsledky pro Mythion jsou ve schránce.</p>
         </div>
     </div>
 
@@ -227,7 +227,7 @@ const CONFIG = {
     drawHour: 20,                 // Hodina losování (20:00)
 };
 
-// Seznam hráčů (Bez barev class, jak si pán přál)
+// Seznam hráčů
 const players = [
     { name: 'Exsqueez', bet: 137 },
     { name: 'Luxes', bet: null },
@@ -264,7 +264,7 @@ function initApp() {
     renderTable();
     calculateStats();
     
-    // Pokud je vítěz, vystřel konfety
+    // Pokud je vítěz, vystřel konfety (tentokrát do zlaté)
     const winners = getWinners();
     if (winners.length > 0) {
         launchConfetti();
@@ -302,6 +302,7 @@ function updateTimers() {
         if (diff < 0) {
             countdownEl.textContent = "⚠️ LOSOVÁNÍ PROBÍHÁ / HOTOVO";
             countdownEl.classList.add('text-red-400');
+            countdownEl.classList.remove('text-yellow-300');
             return;
         }
 
@@ -347,7 +348,7 @@ function calculateStats() {
     const winDisplay = document.getElementById('winning-number-display');
     winDisplay.textContent = CONFIG.winningNumber !== null ? CONFIG.winningNumber : '?';
     if (CONFIG.winningNumber !== null) {
-        winDisplay.classList.add('text-pink-500');
+        winDisplay.classList.add('text-yellow-400');
     }
 
     const winnerContainer = document.getElementById('winner-name');
@@ -359,7 +360,7 @@ function calculateStats() {
         winnerContainer.innerHTML = '';
         winners.forEach(w => {
             const div = document.createElement('div');
-            div.className = `text-purple-200 font-bold text-xl animate-bounce`; // Bez class color, jen purple
+            div.className = `text-yellow-400 font-bold text-xl animate-bounce`;
             div.textContent = `👑 ${w.name} 👑`;
             winnerContainer.appendChild(div);
         });
@@ -416,18 +417,17 @@ function renderTable() {
         if (p.bet !== null && CONFIG.winningNumber !== null) {
             const diff = Math.abs(p.bet - CONFIG.winningNumber);
             if (diff === 0) { diffText = "JACKPOT!"; diffClass = "text-green-400 font-bold"; }
-            else if (diff <= 5) { diffText = `±${diff} (Těsně!)`; diffClass = "text-yellow-400"; }
+            else if (diff <= 5) { diffText = `±${diff} (Těsně!)`; diffClass = "text-amber-400"; }
             else { diffText = `±${diff}`; diffClass = "text-gray-500"; }
         }
 
-        // UNIFIKOVANÁ BARVA JMEN
-        const nameColor = 'text-purple-200'; 
+        const nameColor = 'text-yellow-200'; 
         const betDisplay = p.bet !== null ? `<span class="font-mono text-white">${p.bet}</span>` : '<span class="text-gray-700">-</span>';
         const feeDisplay = `<span class="text-gray-400">${CONFIG.entryFee.toLocaleString()}</span>`;
 
         let statusBadge = '';
         if (isWinner) statusBadge = '<span class="bg-green-500 text-black text-xs font-bold px-2 py-1 rounded">VÍTĚZ</span>';
-        else if (p.bet !== null) statusBadge = '<span class="bg-purple-900/50 text-purple-300 text-xs px-2 py-1 rounded border border-purple-500/30">Zaplaceno</span>';
+        else if (p.bet !== null) statusBadge = '<span class="bg-yellow-900/50 text-yellow-300 text-xs px-2 py-1 rounded border border-yellow-500/30">Zaplaceno</span>';
         else statusBadge = '<span class="text-gray-600 text-xs">Čekání</span>';
 
         tr.innerHTML = `
@@ -460,7 +460,7 @@ function animateValue(id, start, end, duration) {
 function launchConfetti() {
     const duration = 3000;
     const animationEnd = Date.now() + duration;
-    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0, colors: ['#FFD700', '#FFA500', '#DAA520', '#FFFFFF'] };
 
     const randomInRange = (min, max) => Math.random() * (max - min) + min;
 
@@ -490,7 +490,7 @@ function copyToDiscord() {
         : `☠️ **NIKDO NEVYHRÁL** (Jackpot ${totalJackpot.toLocaleString()}g se přesouvá!)`;
 
     const report = `
->>> **🎲 TENEBRISIA LOTERIE - VÝSLEDKY 🎲**
+>>> **🎲 MYTHION LOTERIE - VÝSLEDKY 🎲**
 📅 Datum: ${new Date().toLocaleDateString('cs-CZ')}
 
 💰 **Celkový Jackpot:** ${totalJackpot.toLocaleString()}g
@@ -515,4 +515,3 @@ ${winnerText}
 </script>
 </body>
 </html>
-
